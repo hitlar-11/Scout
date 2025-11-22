@@ -1,0 +1,182 @@
+/* stylelint-disable at-rule-no-unknown */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* stylelint-enable at-rule-no-unknown */
+
+/* If you need to import external CSS files, use valid CSS files, for example:
+  @import "./some-local-file.css"; */
+
+/* Custom utility mappings for project CSS variables used with @apply */
+@layer utilities {
+  /* border-border => uses the project's --border variable */
+  .border-border {
+    border-color: hsl(var(--border));
+  }
+
+  /* bg-background and text-foreground map to the theme variables */
+  .bg-background {
+    background-color: hsl(var(--background));
+  }
+
+  .text-foreground {
+    color: hsl(var(--foreground));
+  }
+
+  /* outline-ring/50 - simple outline using the --ring color
+     Note: the slash in the class name is escaped for a valid CSS selector
+  */
+  .outline-ring\/50 {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 0px;
+  }
+}
+
+:root {
+  /* Kashaf Al-Mahdi Color Palette */
+  --primary: 142 71% 45%; /* Green - faith, nature, scouts identity */
+  --primary-foreground: 138 76% 97%;
+  --secondary: 48 96% 53%; /* Yellow - hope, energy, loyalty */
+  --secondary-foreground: 215 28% 17%;
+  --accent: 271 81% 66%; /* Purple - spirituality, sacrifice */
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 98%;
+  --sidebar-primary: 142 71% 45%;
+  --sidebar-primary-foreground: 138 76% 97%;
+  --chart-1: 142 71% 45%;
+  --chart-2: 48 96% 53%;
+  --chart-3: 271 81% 66%;
+  --chart-4: 199 89% 48%;
+  --chart-5: 35 91% 56%;
+  --radius: 0.65rem;
+  --background: 0 0% 100%;
+  --foreground: 215 28% 17%;
+  --card: 220 14% 98%;
+  --card-foreground: 215 28% 17%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 215 28% 17%;
+  --muted: 220 14% 96%;
+  --muted-foreground: 220 9% 46%;
+  --border: 220 13% 91%;
+  --input: 220 14% 96%;
+  --ring: 142 71% 45%;
+  --sidebar: 0 0% 100%;
+  --sidebar-foreground: 215 28% 17%;
+  --sidebar-accent: 220 14% 96%;
+  --sidebar-accent-foreground: 142 71% 45%;
+  --sidebar-border: 220 13% 91%;
+  --sidebar-ring: 142 71% 45%;
+}
+
+.dark {
+  --primary: var(--color-blue-700);
+  --primary-foreground: var(--color-blue-50);
+  --sidebar-primary: var(--color-blue-500);
+  --sidebar-primary-foreground: var(--color-blue-50);
+  --background: oklch(0.141 0.005 285.823);
+  --foreground: oklch(0.85 0.005 65);
+  --card: oklch(0.21 0.006 285.885);
+  --card-foreground: oklch(0.85 0.005 65);
+  --popover: oklch(0.21 0.006 285.885);
+  --popover-foreground: oklch(0.85 0.005 65);
+  --secondary: oklch(0.24 0.006 286.033);
+  --secondary-foreground: oklch(0.7 0.005 65);
+  --muted: oklch(0.274 0.006 286.033);
+  --muted-foreground: oklch(0.705 0.015 286.067);
+  --accent: oklch(0.274 0.006 286.033);
+  --accent-foreground:  oklch(0.92 0.005 65);
+  --destructive: oklch(0.704 0.191 22.216);
+  --destructive-foreground: oklch(0.985 0 0);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.488 0.243 264.376);
+  --chart-1: var(--color-blue-300);
+  --chart-2: var(--color-blue-500);
+  --chart-3: var(--color-blue-600);
+  --chart-4: var(--color-blue-700);
+  --chart-5: var(--color-blue-800);
+  --sidebar: oklch(0.21 0.006 285.885);
+  --sidebar-foreground: oklch(0.85 0.005 65);
+  --sidebar-accent: oklch(0.274 0.006 286.033);
+  --sidebar-accent-foreground:  oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.488 0.243 264.376);
+}
+
+@layer base {
+  * {
+    /* Use CSS variables directly here instead of @apply so Tailwind's layer ordering
+       (base -> components -> utilities) doesn't cause expandApplyAtRules errors. */
+    border-color: hsl(var(--border));
+  }
+  html {
+    font-family: 'Tajawal', system-ui, sans-serif;
+    direction: rtl;
+  }
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cairo', system-ui, sans-serif;
+    font-weight: 700;
+  }
+  .font-serif {
+    font-family: 'Amiri', serif;
+  }
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  [type="button"]:not(:disabled),
+  [type="submit"]:not(:disabled),
+  [type="reset"]:not(:disabled),
+  a[href],
+  select:not(:disabled),
+  input[type="checkbox"]:not(:disabled),
+  input[type="radio"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+@layer components {
+  /**
+   * Custom container utility that centers content and adds responsive padding.
+   *
+   * This overrides Tailwind's default container behavior to:
+   * - Auto-center content (mx-auto)
+   * - Add responsive horizontal padding
+   * - Set max-width for large screens
+   *
+   * Usage: <div className="container">...</div>
+   *
+   * For custom widths, use max-w-* utilities directly:
+   * <div className="max-w-6xl mx-auto px-4">...</div>
+   */
+  .container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem; /* 16px - mobile padding */
+    padding-right: 1rem;
+  }
+
+  .flex {
+    min-height: 0;
+    min-width: 0;
+  }
+
+  @media (min-width: 640px) {
+    .container {
+      padding-left: 1.5rem; /* 24px - tablet padding */
+      padding-right: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container {
+      padding-left: 2rem; /* 32px - desktop padding */
+      padding-right: 2rem;
+      max-width: 1280px; /* Standard content width */
+    }
+  }
+}
